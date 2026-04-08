@@ -1,0 +1,61 @@
+Do exception and edge cases handling at LAST, after project is completed :D
+
+⸻
+
+FLOAT COMPARISON
+Don't use ==
+Use math.isclose(a,b)
+
+⸻
+
+.sqrt vs **0.5
+
+📌 1. Performance
+	•	math.sqrt(x) → slightly faster (C-optimized)
+	•	x ** 0.5 → uses generic power function
+
+👉 Difference is small, but math.sqrt is cleaner + efficient
+
+📌 2. Error handling
+
+Negative input:
+math.sqrt(-4)   # ❌ ValueError
+(-4) ** 0.5     # ⚠️ returns complex number
+
+-----
+
+A = \cos^{-1}(x)
+
+👉 In Python, this is:
+math.acos(x)
+
+------
+
+degrees = math.degrees(radians)     # rad → deg
+radians = math.radians(degrees)     # deg → rad
+
+---
+
+you want smart rounding only when the angle is extremely close to an “exact” value (like 60° for an equilateral triangle) but leave normal angles like 23.5° untouched.
+
+import math
+
+def smart_round(angle, eps=1e-3):
+    # if angle is very close to nearest integer, snap it
+    nearest = round(angle)
+    if abs(angle - nearest) < eps:
+        return nearest
+    return angle
+
+# example angles
+angle1 = 59.99999999999999
+angle2 = 59.99999999999999
+angle3 = 59.99999999999999
+
+angle1 = smart_round(angle1)
+angle2 = smart_round(angle2)
+angle3 = smart_round(angle3)
+
+print(angle1, angle2, angle3) # 60, 60, 60
+
+-----

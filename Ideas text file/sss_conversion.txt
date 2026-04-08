@@ -1,0 +1,79 @@
+*FORMULAS TO CONVERT TO SSS*
+
+🔺 1. SSS (Already done)
+Given: a, b, c
+→ No conversion needed
+
+🔺 2. SAS → SSS (Law of Cosines)
+a, b, C   (angle between a and b)
+
+Find third side:
+
+c = \sqrt{a^2 + b^2 - 2ab\cos C}
+
+🔺 3. ASA / AAS → SSS (Law of Sines)
+
+Step 1: Find missing angle
+
+A + B + C = 180^\circ
+
+⸻
+
+Step 2: Law of Sines
+
+\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}
+
+⸻
+
+Example conversions:
+
+If given A, B, c:
+
+C = 180^\circ - (A + B)
+
+a = \frac{c \sin A}{\sin C}, \quad
+b = \frac{c \sin B}{\sin C}
+
+⸻
+
+🔺 4. Coordinates → SSS (Distance Formula)
+
+Given:
+(x1, y1), (x2, y2), (x3, y3)
+
+Sides:
+
+a = \sqrt{(x_2 - x_3)^2 + (y_2 - y_3)^2}
+
+b = \sqrt{(x_1 - x_3)^2 + (y_1 - y_3)^2}
+
+c = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}
+
+⸻
+
+🔺 5. SSA (Ambiguous Case ⚠️)
+
+Given:
+a, b, A
+
+Step:
+
+\sin B = \frac{b \sin A}{a}
+
+⸻
+
+Then:
+
+B = \sin^{-1}(\cdot)
+
+⚠️ Two possible values:
+
+B_1 = \sin^{-1}(x), \quad B_2 = 180^\circ - B_1
+
+⸻
+
+Then:
+
+C = 180^\circ - (A + B)
+
+c = \frac{a \sin C}{\sin A}

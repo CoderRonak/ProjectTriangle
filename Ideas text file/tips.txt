@@ -1,5 +1,9 @@
 Do exception and edge cases handling at LAST, after project is completed :D
 
+----
+Project should go like:
+Rough logic -> group into functions -> form into classes -> 
+-> Handle edge cases -> Handle input & looping -> arrange in multiple files
 ⸻
 
 FLOAT COMPARISON

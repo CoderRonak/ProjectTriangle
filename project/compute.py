@@ -10,10 +10,10 @@ class Triangle:
         self.c = c
 
     def semi_perimeter(self):
-        return (self.a + self.b + self.c) / 2  # semi perimeter 's'
+        return round((self.a + self.b + self.c) / 2, 2)  # semi perimeter 's'
 
     def perimeter(self):
-        return self.a + self.b + self.c
+        return round(self.a + self.b + self.c, 2)
 
     def area(self):
         s = self.semi_perimeter()
@@ -21,17 +21,17 @@ class Triangle:
 
         # Check for equilateral, Right Angle, if not , use Heron's
 
-        if self.a == self.b == self.c:
+        if self.triangle_side_type() == "equilateral":
             # equilateral triangle
             area = self.a * self.a * (math.sqrt(3)) / 4
-        elif self.c * self.c == (self.a * self.a) + (self.b * self.b):
+        elif self.triangle_angle_type() == "right":
             # right angle triangle
             area = 0.5 * self.a * self.b
         else:
             # heron's formula
             area = math.sqrt(s * (s - self.a) * (s - self.b) * (s - self.c))
 
-        return area
+        return round(area, 2)
 
     def angles(self):
         A = B = C = 0
@@ -46,12 +46,12 @@ class Triangle:
         B = math.degrees(math.acos(cosB))
         C = math.degrees(math.acos(cosC))
 
-        return (str(A), str(B), str(C))
+        return (str(round(A, 2)), str(round(B, 2)), str(round(C, 2)))
         # the input sides will already be sorted hence no need to sort the angles
         # "".join requires string tuple
 
     def triangle_angle_type(self):
-        if self.c**2 == self.a**2 + self.b**2:
+        if math.isclose(self.c**2, (self.a**2 + self.b**2)):
             return "right"
         elif self.c**2 < self.a**2 + self.b**2:
             return "acute"
@@ -59,20 +59,24 @@ class Triangle:
             return "obtuse"  # returns string
 
     def triangle_side_type(self):
-        if self.a == self.b == self.c:
+        if math.isclose(self.a, self.b) and math.isclose(self.b, self.c):
             return "equilateral"
 
-        elif self.a == self.b or self.b == self.c or self.c == self.a:
+        elif (
+            math.isclose(self.a, self.b)
+            or math.isclose(self.b, self.c)
+            or math.isclose(self.c, self.a)
+        ):
             return "isosceles"
 
         else:
             return "scalene"
 
     def inradius(self):
-        return self.area() / self.semi_perimeter()
+        return round(self.area() / self.semi_perimeter(), 2)
 
     def circumradius(self):
-        return self.a * self.b * self.c / (4 * self.area())
+        return round(self.a * self.b * self.c / (4 * self.area()), 2)
 
     def altitudes(self):
         area = self.area()
@@ -81,7 +85,9 @@ class Triangle:
         alt2 = 2 * area / self.b
         alt3 = 2 * area / self.c
 
-        return sorted([str(alt1), str(alt2), str(alt3)])  # tuple of strings
+        return sorted(
+            [str(round(alt1, 2)), str(round(alt2, 2)), str(round(alt3, 2))]
+        )  # tuple of strings
 
     def medians(self):
         m1 = 0.5 * math.sqrt(
@@ -90,4 +96,6 @@ class Triangle:
         m2 = 0.5 * math.sqrt(2 * self.a**2 + 2 * self.c**2 - self.b**2)
         m3 = 0.5 * math.sqrt(2 * self.a**2 + 2 * self.b**2 - self.c**2)
 
-        return sorted([str(m1), str(m2), str(m3)])  # tuple
+        return sorted(
+            [str(round(m1, 2)), str(round(m2, 2)), str(round(m3, 2))]
+        )  # tuple

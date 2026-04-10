@@ -44,9 +44,9 @@ def coordinates_to_sss(point1, point2, point3):
     # point1 2 3 will be lists containing [x1, y1]
     # x1 and y1 will be Strings, hence converting to int
 
-    x1, y1 = int(point1[0]), int(point1[1])
-    x2, y2 = int(point2[0]), int(point2[1])
-    x3, y3 = int(point3[0]), int(point3[1])
+    x1, y1 = float(point1[0]), float(point1[1])
+    x2, y2 = float(point2[0]), float(point2[1])
+    x3, y3 = float(point3[0]), float(point3[1])
 
     # Getting the sides
     a = math.sqrt((x2 - x3) ** 2 + (y2 - y3) ** 2)

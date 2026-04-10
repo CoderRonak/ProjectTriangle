@@ -2,9 +2,9 @@ import math
 
 
 def input_sss():
-    s1 = int(input("Enter side 1: "))
-    s2 = int(input("Enter side 2: "))
-    s3 = int(input("Enter side 3: "))
+    s1 = float(input("Enter side 1: "))
+    s2 = float(input("Enter side 2: "))
+    s3 = float(input("Enter side 3: "))
 
     sort = sorted([s1, s2, s3])
     return (
@@ -15,21 +15,21 @@ def input_sss():
 
 
 def input_ssa():
-    side1 = int(input("Enter side 1: "))
-    side2 = int(input("Enter side 2: "))
+    side1 = float(input("Enter side 1: "))
+    side2 = float(input("Enter side 2: "))
     angle3 = math.radians(
-        int(input("Enter the angle (in degrees) enclosed by the sides 1 and 2: "))
+        float(input("Enter the angle (in degrees) enclosed by the sides 1 and 2: "))
     )
 
     return (side1, side2, angle3)  # returning ssa as tuple
 
 
 def input_saa():
-    side = int(input("Enter the side (opp. to known angle): "))
+    side = float(input("Enter the side (opp. to known angle): "))
     angle1_opp = math.radians(
-        int(input("Enter the angle (degrees) opposite to the given side: "))
+        float(input("Enter the angle (degrees) opposite to the given side: "))
     )
-    angle2 = math.radians(int(input("Enter the other angle(degrees): ")))
+    angle2 = math.radians(float(input("Enter the other angle(degrees): ")))
 
     return (
         side,

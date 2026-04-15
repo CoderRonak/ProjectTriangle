@@ -1,72 +1,62 @@
 # convert all to SSS
 import math
-from error_handling import ErrorHandling
-
-# just grouping into class nothing else
-# using classmethod because we have to access ascending order in other methods :D
+import error_handling
 
 
-class Convert:
-    @classmethod
-    def ascending_order(cls, s1, s2, s3):
-        sort = sorted([s1, s2, s3])
-        return (
-            sort[0],
-            sort[1],
-            sort[2],
-        )  # returns tuple instead of returning the above list :D
+def ascending_order(s1, s2, s3):
+    return tuple(sorted([s1, s2, s3]))
 
-    @classmethod
-    def ssa_to_sss(cls, side1, side2, angle3):
-        # angle3 (in radians) -> angle between the sides
-        side3 = math.sqrt(side1**2 + side2**2 - 2 * side1 * side2 * math.cos(angle3))
 
-        ErrorHandling.validate_triangle(side1, side2, side3)
+"""CONVERT TO SSS"""
 
-        return cls.ascending_order(
-            side1,
-            side2,
-            side3,
-        )  # returns tuple
 
-    @classmethod
-    def saa_to_sss(cls, side, angle1_opp, angle2):
-        # angle1_opp -> angle opposite to side
+def ssa_to_sss(side1, side2, angle3):
+    # angle3 (in degrees) -> angle between the sides
+    side3 = math.sqrt(
+        side1**2 + side2**2 - 2 * side1 * side2 * math.cos(math.radians(angle3))
+    )
 
-        # Third angle
-        angle3 = math.pi - angle1_opp - angle2  # sum of angles = 180°
+    # error_handling.validate_triangle(side1, side2, side3) -> validating in Triangle class directly
 
-        # Using Law of Sines to find the other sides
-        # input 'side' is opposite angle 'angle1_opp'
-        side1 = side
-        side2 = side1 * math.sin(angle2) / math.sin(angle1_opp)
-        side3 = side1 * math.sin(angle3) / math.sin(angle1_opp)
+    return ascending_order(
+        side1,
+        side2,
+        side3,
+    )  # returns tuple
 
-        ErrorHandling.validate_triangle(side1, side2, side3)
 
-        return cls.ascending_order(
-            side1,
-            side2,
-            side3,
-        )
+def saa_to_sss(side, angle1_opp, angle2):
+    # angle1_opp -> angle opposite to side
+    # Third angle
+    angle3 = 180 - angle1_opp - angle2  # sum of angles = 180°
 
-    @classmethod
-    def coordinates_to_sss(cls, point1, point2, point3):
-        # point1 2 3 will be lists containing [x1, y1]
-        # x1 and y1 will be Strings, hence converting to int
+    angle1_opp = math.radians(angle1_opp)
+    angle2 = math.radians(angle2)
+    angle3 = math.radians(angle3)
 
-        x1, y1 = float(point1[0]), float(point1[1])
-        x2, y2 = float(point2[0]), float(point2[1])
-        x3, y3 = float(point3[0]), float(point3[1])
-        # will raise error if not parsable to float :D
+    # Using Law of Sines to find the other sides
+    # input 'side' is opposite angle 'angle1_opp'
+    side1 = side
+    side2 = side1 * math.sin(angle2) / math.sin(angle1_opp)
+    side3 = side1 * math.sin(angle3) / math.sin(angle1_opp)
 
-        # Getting the sides
-        a = math.sqrt((x2 - x3) ** 2 + (y2 - y3) ** 2)
-        b = math.sqrt((x1 - x3) ** 2 + (y1 - y3) ** 2)
-        c = math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
+    # error_handling.validate_triangle(side1, side2, side3)
 
-        # If the side lengths are 0 or negative, then automatically validate_triangle will handle it by triangle inequality
+    return ascending_order(
+        side1,
+        side2,
+        side3,
+    )
 
-        ErrorHandling.validate_triangle(a, b, c)
 
-        return cls.ascending_order(a, b, c)
+def coordinates_to_sss(p1, p2, p3):
+    # p1 = (x1, y1) ..
+
+    # Getting the sides
+    a = math.sqrt((p2[0] - p3[0]) ** 2 + (p2[1] - p3[1]) ** 2)
+    b = math.sqrt((p1[0] - p3[0]) ** 2 + (p1[1] - p3[1]) ** 2)
+    c = math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
+
+    # error_handling.validate_triangle(a, b, c)
+
+    return ascending_order(a, b, c)

@@ -1,152 +1,65 @@
 # GIVING OUTPUT CHOICE
 from compute import Triangle
-from output import Output
-from convert import Convert
-from input_handle import InputHandle
-import sys
+import input_handle
+import output
 
 while True:  # the whole program will repeat until exit is chosen
-    print("Welcome to this Program!")
 
-    print("We can calulate everything of a triangle!")
+    while True:
+        # for choosing input, will break if valid input, will run again for invalid input
+        output.welcome()
 
-    s1 = s2 = s3 = 0
+        choice = output.input_type_choice()
 
-    while (
-        True
-    ):  # for choosing input, will break if valid input, will run again for invalid input
-        print("Please choose your input type---\n")
-        print("Press 1 to enter 3 sides")
-        print("Press 2 to enter 2 sides & angle enclosed")
-        print("Press 3 to enter 1 sides & two angles")
-        print("Press 4 to enter co-ordinates x,y of vertices")
-        print("Press 5 to exit")
-        choice = int(input("Your choice:--- "))
+        input_actions = {
+            "1": input_handle.input_sss,
+            "2": input_handle.input_and_convert_sas,
+            "3": input_handle.input_and_convert_saa,
+            "4": input_handle.input_and_convert_coords,
+        }  # wonderful replacement of if - elif - else ladder
 
-        if choice == 1:
-            # SSS
+        if choice == "5":
+            output.exit_program()
+        elif choice in input_actions:
             try:
-                s1, s2, s3 = InputHandle.input_sss()
+                s1, s2, s3 = input_actions[choice]()
                 break
             except Exception as e:
                 print(e)
+                output.pause()
                 continue
-
-        elif choice == 2:
-            # SAS
-            try:
-                side1, side2, angle3 = InputHandle.input_ssa()
-
-                s1, s2, s3 = Convert.ssa_to_sss(
-                    side1=side1,
-                    side2=side2,
-                    angle3=angle3,
-                )
-                break
-
-            except Exception as e:
-                print(e)
-                continue
-
-        elif choice == 3:
-            # SAA
-            try:
-                side, angle1_opp, angle2 = InputHandle.input_saa()
-
-                s1, s2, s3 = Convert.saa_to_sss(
-                    side=side,
-                    angle1_opp=angle1_opp,
-                    angle2=angle2,
-                )
-                break
-
-            except Exception as e:
-                print(e)
-                continue
-
-        elif choice == 4:
-            # COORDINATES
-            try:
-                point1, point2, point3 = (
-                    InputHandle.input_coordinates()
-                )  # won't raise any error
-
-                s1, s2, s3 = Convert.coordinates_to_sss(
-                    point1=point1, point2=point2, point3=point3
-                )
-                break
-
-            except Exception as e:
-                print(e)
-                continue
-        elif choice == 5:
-            # EXIT
-            print("Thanks!")
-            sys.exit("Exiting Succesfully")
-
         else:
-            print("Invalid choice! Please try again!\n")
+            print("Invalid choice! Please try again!")
+            output.pause()
             continue
 
-    triangle = Triangle(a=s1, b=s2, c=s3)
-    Output.triangle = triangle
+    t = Triangle(a=s1, b=s2, c=s3)
 
     while True:  # for choosing output; will run again for invalid choice
-        print("\n-------------\nPlease choose your desired output----\n")
-        print("Press 1 to know Triangle Type")
-        print("Press 2 to compute Perimeter")
-        print("Press 3 to compute Area")
-        print("Press 4 to compute All Angles")
-        print("Press 5 to compute Inradius")
-        print("Press 6 to compute Circumradius")
-        print("Press 7 to compute length of Medians")
-        print("Press 8 to compute length of Altitudes\n")
-        print("Press 9 to compute everything\n")
-        print("Press 10 to exit\n")
+        choice_o = output.output_type_choice()
 
-        choice = int(input("Your choice:--- "))
+        actions = {
+            "1": output.show_triangle_type,
+            "2": output.show_perimeter,
+            "3": output.show_area,
+            "4": output.show_angles,
+            "5": output.show_inradius,
+            "6": output.show_circumradius,
+            "7": output.show_medians,
+            "8": output.show_altitudes,
+            "9": output.show_all,
+        }  # wonderful replacement of if - elif - else ladder
 
-        if choice == 1:
-            Output.triangle_type()
+        if choice_o == "10":
+            output.exit_program()
+        elif choice_o in actions:
+            actions[choice_o](t)
+            output.pause()
             break
-        elif choice == 2:
-            Output.perimeter()
-            break
-        elif choice == 3:
-            Output.area()
-            break
-        elif choice == 4:
-            Output.angles()
-            break
-        elif choice == 5:
-            Output.inradius()
-            break
-        elif choice == 6:
-            Output.circumradius()
-            break
-        elif choice == 7:
-            Output.medians()
-            break
-        elif choice == 8:
-            Output.altitudes()
-            break
-        elif choice == 9:
-            # DISPLAY ALL
-            Output.triangle_type()
-            Output.perimeter()
-            Output.area()
-            Output.angles()
-            Output.inradius()
-            Output.circumradius()
-            Output.medians()
-            Output.altitudes()
-            break
-        elif choice == 10:
-            print("Thanks!")
-            sys.exit("Exiting Succesfully")  # EXIT
-
         else:
-            print("Invalid choice! Please try again!\n")
+            print("Invalid choice! Please try again!")
+            output.pause()
+            output.clear()
             continue
 
 # END OF PROGRAM :D

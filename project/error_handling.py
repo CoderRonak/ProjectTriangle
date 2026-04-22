@@ -37,3 +37,22 @@ def validate_input(mode="side", *args):
 def validate_triangle(s1, s2, s3):
     if not (s1 + s2 > s3 and s2 + s3 > s1 and s1 + s3 > s2):
         raise InvalidTriangleError("Invalid Triangle !")
+
+
+def validate_collinearity(p1, p2, p3):
+    """Check if three 2D points are collinear or nearly-collinear using cross product.
+    If area is too small (< 1e-6), reject as degenerate triangle.
+    Only works for 2D points.
+    """
+    if len(p1) != 2 or len(p2) != 2 or len(p3) != 2:
+        # For 3D, collinearity check is more complex, rely on triangle inequality
+        return
+    
+    x1, y1 = p1
+    x2, y2 = p2
+    x3, y3 = p3
+    # Cross product: (p2-p1) × (p3-p1)
+    cross_product = (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1)
+    # If cross product is very close to 0, points are collinear/nearly-collinear
+    if abs(cross_product) < 1e-10:
+        raise InvalidTriangleError("Invalid Triangle ! Points are collinear or nearly collinear.")

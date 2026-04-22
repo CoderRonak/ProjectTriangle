@@ -42,6 +42,11 @@ class Triangle:
         cosB = (self.a**2 + self.c**2 - self.b**2) / (2 * self.a * self.c)
         cosC = (self.a**2 + self.b**2 - self.c**2) / (2 * self.a * self.b)
 
+        # Clamp values to [-1, 1] to avoid domain errors in acos() due to floating point precision
+        cosA = max(-1, min(1, cosA))
+        cosB = max(-1, min(1, cosB))
+        cosC = max(-1, min(1, cosC))
+
         # return angles A, B, C in radians
         A = math.acos(cosA)  # cos inverse
         B = math.acos(cosB)

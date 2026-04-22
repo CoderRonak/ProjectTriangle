@@ -46,7 +46,7 @@ def input_type_choice():
     print("1. Three sides (SSS)")
     print("2. Two sides + included angle (SAS)")
     print("3. One side + two angles (ASA/AAS)")
-    print("4. Coordinates of vertices")
+    print("4. Coordinates of vertices (2D or 3D)")
     print("5. Exit")
 
     return input("\nEnter choice → ")

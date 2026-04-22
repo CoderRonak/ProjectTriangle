@@ -71,22 +71,41 @@ def input_saa():
 
 
 def input_coordinates():
-    print("Enter co-ordinates x,y (comma separated) of 3 points: ")
+    print("Enter coordinates (2D or 3D, comma separated) of 3 points:")
+    print("Format: x,y for 2D or x,y,z for 3D (all 3 points must be same dimension)\n")
+    
     point1 = (
-        input("Enter point 1 -> x1, y1: ").replace(" ", "").split(",")
-    )  # list of strings [x1, y1]
-    point2 = input("Enter point 2 -> x2, y2: ").replace(" ", "").split(",")
-    point3 = input("Enter point 3 -> x3, y3: ").replace(" ", "").split(",")
+        input("Enter point 1 (e.g., 1,2 or 1,2,3): ").replace(" ", "").split(",")
+    )
+    point2 = input("Enter point 2 (e.g., 1,2 or 1,2,3): ").replace(" ", "").split(",")
+    point3 = input("Enter point 3 (e.g., 1,2 or 1,2,3): ").replace(" ", "").split(",")
 
-    # replacing any blank space because user can enter:
-    #'x,y' or 'x, y' or 'x , y' ..
-
-    # point1 2 3 will be lists containing [x1, y1]
-    # x1 and y1 will be Strings, hence converting to flot
-
-    x1, y1 = float(point1[0]), float(point1[1])
-    x2, y2 = float(point2[0]), float(point2[1])
-    x3, y3 = float(point3[0]), float(point3[1])
-    # will raise error if not parsable to float :D
-
-    return ((x1, y1), (x2, y2), (x3, y3))  # lists containing ["x", "y"]
+    # Validate that each point has 2 or 3 coordinates (all same dimension)
+    coord_counts = {len(point1), len(point2), len(point3)}
+    
+    if len(coord_counts) > 1:
+        raise error_handling.InvalidValueError(
+            "Invalid coordinates! All 3 points must have the same dimension (all 2D or all 3D)."
+        )
+    
+    dimension = list(coord_counts)[0]
+    
+    if dimension not in [2, 3]:
+        raise error_handling.InvalidValueError(
+            f"Invalid coordinates! Each point must have 2 values (2D) or 3 values (3D), got {dimension}."
+        )
+    
+    # Convert all coordinates to floats
+    try:
+        if dimension == 2:
+            x1, y1 = float(point1[0]), float(point1[1])
+            x2, y2 = float(point2[0]), float(point2[1])
+            x3, y3 = float(point3[0]), float(point3[1])
+            return ((x1, y1), (x2, y2), (x3, y3))
+        else:  # dimension == 3
+            x1, y1, z1 = float(point1[0]), float(point1[1]), float(point1[2])
+            x2, y2, z2 = float(point2[0]), float(point2[1]), float(point2[2])
+            x3, y3, z3 = float(point3[0]), float(point3[1]), float(point3[2])
+            return ((x1, y1, z1), (x2, y2, z2), (x3, y3, z3))
+    except (ValueError, IndexError) as e:
+        raise error_handling.InvalidValueError(f"Invalid coordinates! Could not parse: {e}")

@@ -1,4 +1,3 @@
-# GIVING OUTPUT CHOICE
 from compute import Triangle
 import input_handle
 import output
@@ -16,7 +15,7 @@ while True:  # the whole program will repeat until exit is chosen
             "2": input_handle.input_and_convert_sas,
             "3": input_handle.input_and_convert_saa,
             "4": input_handle.input_and_convert_coords,
-        }  # wonderful replacement of if - elif - else ladder
+        }  # wonderful replacement of if - elif - else ladder (coords now supports 2D/3D)
 
         if choice == "5":
             output.exit_program()
@@ -33,7 +32,13 @@ while True:  # the whole program will repeat until exit is chosen
             output.pause()
             continue
 
-    t = Triangle(a=s1, b=s2, c=s3)
+    try:
+        t = Triangle(a=s1, b=s2, c=s3)
+    except Exception as e:
+        print(e)
+        output.pause()
+        output.clear()
+        continue
 
     while True:  # for choosing output; will run again for invalid choice
         choice_o = output.output_type_choice()

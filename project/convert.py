@@ -50,12 +50,38 @@ def saa_to_sss(side, angle1_opp, angle2):
 
 
 def coordinates_to_sss(p1, p2, p3):
-    # p1 = (x1, y1) ..
+    # p1, p2, p3 can be 2D (x, y) or 3D (x, y, z) tuples
+    # All points must be the same dimension
 
-    # Getting the sides
-    a = math.sqrt((p2[0] - p3[0]) ** 2 + (p2[1] - p3[1]) ** 2)
-    b = math.sqrt((p1[0] - p3[0]) ** 2 + (p1[1] - p3[1]) ** 2)
-    c = math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
+    # Determine dimension from first point
+    dimension = len(p1)
+
+    if dimension == 2:
+        # 2D coordinates - check for collinearity
+        error_handling.validate_collinearity(p1, p2, p3)
+
+        # Getting the sides in 2D
+        a = math.sqrt((p2[0] - p3[0]) ** 2 + (p2[1] - p3[1]) ** 2)
+        b = math.sqrt((p1[0] - p3[0]) ** 2 + (p1[1] - p3[1]) ** 2)
+        c = math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
+
+    elif dimension == 3:
+        # 3D coordinates - compute distances using 3D formula
+        # Distance = sqrt((x2-x1)^2 + (y2-y1)^2 + (z2-z1)^2)
+        a = math.sqrt(
+            (p2[0] - p3[0]) ** 2 + (p2[1] - p3[1]) ** 2 + (p2[2] - p3[2]) ** 2
+        )
+        b = math.sqrt(
+            (p1[0] - p3[0]) ** 2 + (p1[1] - p3[1]) ** 2 + (p1[2] - p3[2]) ** 2
+        )
+        c = math.sqrt(
+            (p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2 + (p1[2] - p2[2]) ** 2
+        )
+
+    else:
+        raise error_handling.InvalidValueError(
+            f"Invalid dimension {dimension}. Expected 2D or 3D coordinates."
+        )
 
     # error_handling.validate_triangle(a, b, c)
 
